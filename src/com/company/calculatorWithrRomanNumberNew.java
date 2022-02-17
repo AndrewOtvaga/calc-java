@@ -9,17 +9,28 @@ public class calculatorWithrRomanNumberNew {
 
             var line = scaner.nextLine();
             line = line.replace(" " , "");
-            int i = signs(line);
+            var includeRoman = line.matches(".*([IVXLCDM]).*");
+            var includeIndian = line.matches(".*([0-9]).*");
+            if (includeRoman && includeIndian){
+                System.out.println("Error input");
+            }
+            else {
+                int i = signs(line);
 
-            var leftside = line.substring(0,i);
-            var rightside = line.substring(i+1);
-            var leftnumber = parsNumbers(leftside);
-            var rightnumber = parsNumbers(rightside);
-            char sign = line.charAt(i);
-            System.out.println(mathematicOperand(leftnumber, rightnumber, sign ));
+                var leftside = line.substring(0, i);
+                var rightside = line.substring(i + 1);
+                var leftnumber = parsNumbers(leftside);
+                var rightnumber = parsNumbers(rightside);
+                char sign = line.charAt(i);
+                int result = mathematicOperand(leftnumber, rightnumber, sign);
+                if (includeIndian) {
+                    System.out.println(result);
+                }
+                else {
+                    System.out.println(toString(result));
+                }
+            }
         }
-
-
     }
     public static int mathematicOperand (int leftNumber, int rightNuber, char sign){
         switch (sign){
@@ -38,10 +49,10 @@ public class calculatorWithrRomanNumberNew {
         return 0;
     }
     public static int parsNumbers (String str){
-        if(!str.matches(".*([IVXLMDC])")){
+        if(!str.matches(".*([IVXLCDM])")){
             return Integer.parseInt(str);
         }
-        char[]massiveRomanNumbers = {'I', 'V', 'X', 'L', 'M', 'D', 'C'};
+        char[]massiveRomanNumbers = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
         int[]massiveIndianNumbers = {1, 5, 10, 50, 100, 500, 1000};
         int result = 0;
         int i=0;
@@ -51,12 +62,12 @@ public class calculatorWithrRomanNumberNew {
             for (; j < massiveRomanNumbers.length - 1; j++)
                 if (massiveRomanNumbers[j] == RomanNumber)
                     break;
-
             i++;
             if (i == str.length()) {
                 result += massiveIndianNumbers[j];
-
-            } else {
+            }
+            else
+            {
                 char nextRomanNumber = str.charAt(i);
                 int nextCharPosition = 0;
                 for (; nextCharPosition < massiveRomanNumbers.length - 1; nextCharPosition++)
@@ -65,11 +76,29 @@ public class calculatorWithrRomanNumberNew {
                 if (massiveIndianNumbers[j] < massiveIndianNumbers[nextCharPosition]) {
                     result += massiveIndianNumbers[nextCharPosition] - massiveIndianNumbers[j];
                     i++;
-                } else {
+                }
+                else
+                {
                     result += massiveIndianNumbers[j];
                 }
             }
         }
         return  result;
+    }
+
+    public static String toString(int num) {
+        String[]massiveRomanNumbers = { "M",  "CM",  "D",  "CD", "C",  "XC",
+                "L",  "XL",  "X",  "IX", "V",  "IV", "I" };
+        int[]massiveIndianNumbers = { 1000,  900,  500,  400,  100,   90,
+                50,   40,   10,    9,    5,    4,    1 };
+        String roman = "";
+        int N = num;
+        for (int i = 0; i < massiveIndianNumbers.length; i++) {
+            while (N >= massiveIndianNumbers[i]) {
+                roman += massiveRomanNumbers[i];
+                N -= massiveIndianNumbers[i];
+            }
+        }
+        return roman;
     }
 }
