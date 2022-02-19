@@ -49,7 +49,7 @@ public class calculatorWithrRomanNumberNew {
         return 0;
     }
     public static int parsNumbers (String str){
-        if(!str.matches(".*([IVXLCDM])")){
+        if(!str.matches(".*([IVXLCDM]).*")){
             return Integer.parseInt(str);
         }
         char[]massiveRomanNumbers = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
@@ -59,8 +59,8 @@ public class calculatorWithrRomanNumberNew {
         while(i<str.length()) {
             char RomanNumber = str.charAt(i);
             int j = 0;
-            for (; j < massiveRomanNumbers.length - 1; j++)
-                if (massiveRomanNumbers[j] == RomanNumber)
+            for (; j < massiveRomanNumbers.length; j++)
+                if (RomanNumber == massiveRomanNumbers[j])
                     break;
             i++;
             if (i == str.length()) {
@@ -70,7 +70,7 @@ public class calculatorWithrRomanNumberNew {
             {
                 char nextRomanNumber = str.charAt(i);
                 int nextCharPosition = 0;
-                for (; nextCharPosition < massiveRomanNumbers.length - 1; nextCharPosition++)
+                for (; nextCharPosition < massiveRomanNumbers.length; nextCharPosition++)
                     if (massiveRomanNumbers[nextCharPosition] == nextRomanNumber)
                         break;
                 if (massiveIndianNumbers[j] < massiveIndianNumbers[nextCharPosition]) {
@@ -87,10 +87,8 @@ public class calculatorWithrRomanNumberNew {
     }
 
     public static String toString(int num) {
-        String[]massiveRomanNumbers = { "M",  "CM",  "D",  "CD", "C",  "XC",
-                "L",  "XL",  "X",  "IX", "V",  "IV", "I" };
-        int[]massiveIndianNumbers = { 1000,  900,  500,  400,  100,   90,
-                50,   40,   10,    9,    5,    4,    1 };
+        String[]massiveRomanNumbers = { "M",  "CM",  "D",  "CD", "C",  "XC", "L",  "XL",  "X",  "IX", "V",  "IV", "I" };
+        int[]massiveIndianNumbers = { 1000,  900,  500,  400,  100,   90, 50,   40,   10,    9,    5,    4,    1 };
         String roman = "";
         int N = num;
         for (int i = 0; i < massiveIndianNumbers.length; i++) {
